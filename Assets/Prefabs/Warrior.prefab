@@ -10,8 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4013013185106986168}
   - component: {fileID: 6128770547484214407}
-  - component: {fileID: 6887004861095994912}
-  - component: {fileID: 3629216277284778135}
   - component: {fileID: 1375744182733063826}
   m_Layer: 0
   m_Name: Warrior
@@ -48,49 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f3ddb03ebfe054eb807dba8374ca44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
---- !u!114 &6887004861095994912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2576876061680166511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1e386702c9b85d499f70a21fc5dc477, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ThirdPersonController
   _velocity: 250
   _rotationSpeed: 3
-  _destination: {fileID: 0}
+  _direction: {x: 0, y: 0, z: 0}
   _animator: {fileID: 2041978784509466564}
---- !u!54 &3629216277284778135
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2576876061680166511}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 0
+  _destinationSize: 4
 --- !u!136 &1375744182733063826
 CapsuleCollider:
   m_ObjectHideFlags: 0

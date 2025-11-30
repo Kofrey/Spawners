@@ -12,13 +12,13 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float _timer;
     private Coroutine _coroutine;
 
-    void Start()
+    private void Start()
     {
         _timer = 0.0f;
         _coroutine = StartCoroutine(SpawnUnit(_spawnCooldown));
     }
 
-    void Update()
+    private void Update()
     {
         if(_isSpawning == false)
         {
@@ -37,7 +37,8 @@ public class Spawner : MonoBehaviour
             }
             else
             {
-                Instantiate(_unitPrefab, _spawnPoints[UserUtils.GenerateRandomNumber(0, _spawnPoints.Count - 1)]).GetComponent<UnitController>().SetDestination(_destinationPoint);
+                Unit unit = Instantiate(_unitPrefab, _spawnPoints[UserUtils.GenerateRandomNumber(0, _spawnPoints.Count - 1)]).GetComponent<Unit>();
+                unit.SetDirection(_destinationPoint.position - unit.transform.position);
                 _timer += Time.deltaTime - respawnTime;
             }
 
