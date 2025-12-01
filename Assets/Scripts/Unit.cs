@@ -1,42 +1,59 @@
 using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
+
 
 public class Unit : MonoBehaviour
 {
-    [Tooltip("Speed ​​at which the unit moves.")]
-    [SerializeField] private float _velocity = 250f;
-    [SerializeField] private float _rotationSpeed = 3.0f;
-    [SerializeField] private Vector3 _direction;
-    [SerializeField] private Animator _animator;
+    [SerializeField] protected Transform _target;
+    [SerializeField] protected Animator _animator;
+    [SerializeField] protected UnityEngine.AI.NavMeshAgent _agent;
+    protected Vector3 _lastPosition;
+    protected float _checkTargetTime = 0.3f;
+    protected float _checkTimer;
 
-    private static int s_isMoveSelf;
-    private float _velocityModifier = 0.02f;
+    protected static int s_isMoveSelf;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         s_isMoveSelf = Animator.StringToHash("isMoveSelf");
+        _lastPosition = transform.position;
+        _checkTimer = 0;
+        StartCoroutine(CheckTarget(_checkTargetTime));
     }
 
-    private void Update()
+    public void SetTarget(Transform transform)
     {
-        if (_direction == null)
-            return;
-
-        if (Vector3.Angle(_direction, transform.forward) > 0.0f)
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(_direction), _rotationSpeed * Time.deltaTime);
-        }
-        else 
-        {
-            transform.Translate(Vector3.forward * _velocity * _velocityModifier * Time.deltaTime);
-
-            _animator.SetBool(s_isMoveSelf, true);
-        }
+        _target = transform;
     }
 
-    public void SetDirection(Vector3 direction)
-    {
-        _direction = direction;
+    private IEnumerator CheckTarget(float checkTime)
+    {   
+        if (_target == null)
+            yield return null;
+
+        while(enabled)
+        {
+            if (_checkTimer < checkTime)
+            {
+                _checkTimer += Time.deltaTime;
+            }
+            else
+            {
+                _agent.SetDestination(_target.position);
+
+                if (transform.position != _lastPosition)
+                    _animator.SetBool(s_isMoveSelf, true);
+                else
+                    _animator.SetBool(s_isMoveSelf, false);
+        
+                _lastPosition = transform.position;
+
+                _checkTimer += Time.deltaTime - checkTime;
+            }
+
+            yield return null;
+        }    
     }
 }

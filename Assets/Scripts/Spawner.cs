@@ -17,19 +17,10 @@ public class Spawner : MonoBehaviour
         _timer = 0.0f;
         _coroutine = StartCoroutine(SpawnUnit(_spawnCooldown));
     }
-
-    private void Update()
-    {
-        if(_isSpawning == false)
-        {
-            StopCoroutine(_coroutine);
-        }
-    }
     
     private IEnumerator SpawnUnit(float respawnTime)
-    {
-              
-        while(enabled)
+    { 
+        while(_isSpawning == true)
         {
             if (_timer < respawnTime)
             {
@@ -37,8 +28,9 @@ public class Spawner : MonoBehaviour
             }
             else
             {
-                Unit unit = Instantiate(_unitPrefab, _spawnPoints[UserUtils.GenerateRandomNumber(0, _spawnPoints.Count - 1)]).GetComponent<Unit>();
-                unit.SetDirection(_destinationPoint.position - unit.transform.position);
+                int randomIndex = UnityEngine.Random.Range(0, _spawnPoints.Count - 1);
+                Unit unit = Instantiate(_unitPrefab, _spawnPoints[randomIndex]);
+                unit.SetTarget(_destinationPoint);
                 _timer += Time.deltaTime - respawnTime;
             }
 
